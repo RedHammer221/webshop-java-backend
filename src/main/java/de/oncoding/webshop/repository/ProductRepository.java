@@ -5,6 +5,7 @@ import de.oncoding.webshop.model.ProductResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductRepository {
     List<ProductResponse> products = Arrays.asList(
@@ -35,24 +36,19 @@ public class ProductRepository {
         if (tag == null)
             return products;
         else {
-            tag = tag.toLowerCase();
-            List<ProductResponse> filtered = new ArrayList<>();
+            String lowerCaseTag = tag.toLowerCase();
 
-            for (ProductResponse p:products) {
-                List<String> lowercaseTags = lowercaseTags(p);
-                if(lowercaseTags.contains(tag))
-                    filtered.add(p);
-            }
-            return filtered;
+            return products.stream()
+                    .filter(p -> lowercaseTags(p).contains(lowerCaseTag))
+                    .collect(Collectors.toList());
         }
     }
 
     private List<String> lowercaseTags(ProductResponse p) {
-        List<String> lowercaseTags = new ArrayList<>();
-        for (String t: p.getTags()) {
-            lowercaseTags.add(t.toLowerCase());
-        }
-        return lowercaseTags;
+
+        return p.getTags().stream()
+                .map(tag -> tag.toLowerCase()).
+                collect(Collectors.toList());
     }
 
 }
