@@ -27,19 +27,11 @@ public class ProductResponse {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
 
-    public Integer getPriceInCent() {
-        return priceInCent;
-    }
+    public Integer getPriceInCent() { return priceInCent; }
 
-    public List<String> getTags() {
-        return tags;
-    }
+    public List<String> getTags() { return tags; }
 }
