@@ -1,37 +1,42 @@
 package de.oncoding.webshop.repository;
 
+import de.oncoding.webshop.model.ProductCreateRequest;
 import de.oncoding.webshop.model.ProductResponse;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductRepository {
-    List<ProductResponse> products = Arrays.asList(
-            new ProductResponse(
-                    "1",
-                    "RTX 4060",
-                    "asasdaftfufsf",
-                    555550,
-                    Arrays.asList("NVidia".toLowerCase(), "GPU".toLowerCase())
-            ),
-            new ProductResponse(
-                    "2",
-                    "RIntel Core I5 13600",
-                    "asasdaftfufsf",
-                    39080,
-                    Arrays.asList("Intel".toLowerCase(), "CPU".toLowerCase())
-            ),
-            new ProductResponse(
-                    "3",
-                    "AMD Ryzen 6",
-                    "asasdaftfufsf",
-                    34590,
-                    Arrays.asList("AMD".toLowerCase(), "CPU".toLowerCase())
-            )
-    );
-    public List<ProductResponse>findAll(String tag){
+    List<ProductResponse> products = new ArrayList<>();
+
+    public ProductRepository() {
+        products.add(
+                new ProductResponse(
+                        UUID.randomUUID().toString(),
+                        "RTX 4060",
+                        "asasdaftfufsf",
+                        555550,
+                        Arrays.asList("NVidia".toLowerCase(), "GPU".toLowerCase())
+                ));
+        products.add(
+                new ProductResponse(
+                        UUID.randomUUID().toString(),
+                        "RIntel Core I5 13600",
+                        "asasdaftfufsf",
+                        39080,
+                        Arrays.asList("Intel".toLowerCase(), "CPU".toLowerCase())
+                ));
+        products.add(
+                new ProductResponse(
+                        UUID.randomUUID().toString(),
+                        "AMD Ryzen 6",
+                        "asasdaftfufsf",
+                        34590,
+                        Arrays.asList("AMD".toLowerCase(), "CPU".toLowerCase())
+                ));
+    }
+
+    public List<ProductResponse> findAll(String tag) {
 
         if (tag == null)
             return products;
@@ -51,5 +56,29 @@ public class ProductRepository {
                 collect(Collectors.toList());
     }
 
+    public Optional<ProductResponse> findById(String id) {
+        Optional<ProductResponse> product = products.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst();
+        return product;
+    }
+
+    public void deleteById(String id) {
+        this.products = products.stream()
+                .filter(p -> !p.getId().equals(id))
+                .collect(Collectors.toList());
+    }
+
+    public ProductResponse save(ProductCreateRequest request) {
+        ProductResponse response = new ProductResponse(
+                UUID.randomUUID().toString(),
+                request.getName(),
+                request.getDescription(),
+                request.getPriceInCent(),
+                request.getTags()
+        );
+        products.add(response);
+        return response;
+    }
 }
 
