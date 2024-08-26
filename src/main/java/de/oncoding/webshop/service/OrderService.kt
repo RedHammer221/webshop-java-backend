@@ -20,12 +20,7 @@ class OrderService(
 ) {
 
     fun createOrder(request: OrderCreateRequest): OrderResponse {
-
-        val customer = customerRepository.findById(request.customerId)
-            ?: throw IdNotFoundException(
-                message = "Customer ${request.customerId} not found!",
-                statusCode = HttpStatus.BAD_REQUEST
-            )
+        customerRepository.findById(request.customerId)
 
         return orderRepository.save(request)
     }
@@ -49,6 +44,7 @@ class OrderService(
 
         val orderPositionResponse = OrderPositionResponse(
             id = UUID.randomUUID().toString(),
+            orderId = orderId,
             productId = request.productId,
             quantity = request.quantity
         )

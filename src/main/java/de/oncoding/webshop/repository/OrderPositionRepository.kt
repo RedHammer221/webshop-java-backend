@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service
 
 class OrderPositionRepository {
 
-    val orderPositions  = mutableListOf<OrderPositionResponse>()
+    private val orderPositions  = mutableListOf<OrderPositionResponse>()
 
     fun save(orderPositionResponse: OrderPositionResponse) {
         orderPositions.add(orderPositionResponse)
+    }
+
+    fun findAllByOrderIds(orderIds: List<String>): List<OrderPositionResponse> {
+        return orderPositions.filter { orderIds.contains(it.orderId)  }
     }
 
 }
