@@ -34,4 +34,5 @@ public class ProductResponse {
     public Integer getPriceInCent() { return priceInCent; }
 
     public List<String> getTags() { return tags; }
+
 }
